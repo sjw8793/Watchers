@@ -6,7 +6,6 @@ import pickle
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from datetime import datetime, timedelta
-from catboost import CatBoostRegressor
 import io  # StringIO를 사용하기 위해 추가
 import json
 import logging
@@ -15,11 +14,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 # CatBoost 모델 로드
-with open('XGboost_best_model.pkl', 'rb') as model_file:
+with open('C:/flooding-api/weather_api/forecast/XGboost_best_model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
 
 # 서울시 그리드와 고도 및 관측소 번호 데이터 로드
-grid_data = pd.read_csv('서울시그리드와고도_행정동_구_관측소번호.csv')
+grid_data = pd.read_csv('C:/flooding-api/weather_api/forecast\서울시그리드와고도_행정동_구_관측소번호.csv')
 
 def parse_weather_data(data):
     lines = data.strip().split('\n')
