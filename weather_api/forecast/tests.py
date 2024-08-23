@@ -10,8 +10,8 @@ class APITestCase(TestCase):
 
     def test_predict_endpoint(self):
         response = self.client.post(reverse('weather_prediction'), {
-            "gu_name": "관악구",
-            "dong_name": "신림동"
+            "gu_name": "Gangseo-gu",
+            "dong_name": "Gonghang-dong"
         }, content_type='application/json')
         
         print(response.content)  # 응답 내용을 출력하여 디버깅
