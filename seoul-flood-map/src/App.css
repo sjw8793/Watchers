@@ -1,0 +1,51 @@
+/* App.css */
+
+.App {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+}
+
+.controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 1000; /* 지도 위에 표시되도록 z-index 설정 */
+}
+
+.selected-location {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000; /* 지도 위에 표시되도록 z-index 설정 */
+}
+
+.selected-location p {
+  margin: 0;
+  font-size: 14px;
+}
+
+#dropdown-gu-button, #dropdown-dong-button {
+  margin-bottom: 10px;
+}
+/* App.css */
+/* App.css */
+
+.dropdown-menu {
+  max-height: 200px; /* 드롭다운 메뉴의 최대 높이를 조정 */
+  overflow-y: auto;
+  font-size: 16px; /* 글자 크기 */
+  width: 250px; /* 드롭다운 메뉴의 너비 */
+}
+
+/* 드롭다운 항목 스타일링 */
+.dropdown-item {
+  padding: 10px 15px; /* 드롭다운 항목의 패딩 조정 */
+  height: 40px; /* 항목의 높이 조정 */
+  display: flex;
+  align-items: center; /* 텍스트를 세로로 중앙 정렬 */
+  box-sizing: border-box; /* 패딩 포함하여 높이 계산 */
+}
