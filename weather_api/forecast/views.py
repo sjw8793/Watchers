@@ -13,6 +13,7 @@ import tracemalloc
 import psutil
 import os
 import time
+import math
 
 # 로거 설정
 logger = logging.getLogger(__name__)
@@ -37,7 +38,16 @@ grid_data = pd.read_csv('/home/ubuntu/floodapi/weather_api/forecast/seoul.csv')
 print_memory_usage("After loading grid data")
 print(f"grid_data columns: {grid_data.columns}")  # grid_data의 컬럼 확인
 
-
+# 침수가 날 확률을 0~99(%) 사이 정수로 반환
+def score_stat(rain_4h_ttl: int, rain_2h_per10m: int):
+    if rain_4h_ttl > 10 and rain_2h_per10m > 2:
+        if rain_4h_ttl >= 250:
+            add_percent = 9
+        else:
+            add_percent = (rain_4h_ttl - 10) / 25
+        return 90 + int(add_percent)
+    else:
+        return math.exp2(rain_4h_ttl)/10
 
 def parse_weather_data(data):
     lines = data.strip().split('\n')
@@ -151,14 +161,16 @@ class WeatherPredictionAPIView(APIView):
                     '침수된 지역의 평균 지형 고도': float(row['elevation']),
                     **flood_data
                 }
-     
 
                 # XGBoost 모델의 피처 순서 가져오기
                 model_features = model.get_booster().feature_names
                 input_df = pd.DataFrame([input_data])[model_features]
 
                 # 모델 예측 수행
-                score = model.predict_proba(input_df)[:, 1]  # 양성 클래스(침수)의 확률을 가져옴
+                # score_model = model.predict_proba(input_df)[:, 1]  # 양성 클래스(침수)의 확률을 가져옴
+
+                # 통계적 예측 수행
+                score = score_stat(rain_4h_ttl="4시간 누적 강수량(mm)", rain_2h_per10m="2시간 시간당 강수량(mm)")
 
                 # 원본 데이터에 예측 점수 추가
                 result_row = row.copy()
